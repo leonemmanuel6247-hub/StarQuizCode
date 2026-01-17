@@ -1,0 +1,8 @@
+{
+  "name": "Polaris Creator - Interface Visuelle",
+  "description": "Plateforme futuriste de création de sites web assistée par IA avec prévisualisation en temps réel et export de code.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
