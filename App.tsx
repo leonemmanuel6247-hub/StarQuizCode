@@ -15,7 +15,7 @@ import { GoogleGenAI } from "@google/genai";
 const PolarisAssistant: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: 'assistant', text: "Salutations, Architecte Nexus. Bienvenue dans l'interface Star Quiz Code Build. J'ai configuré pour vous un système de personnalisation récursive. Vos futurs utilisateurs pourront eux-mêmes créer leur propre univers Polaris depuis votre site ! Chaque paramètre que vous définissez ici sera injecté dans leur pack de sources téléchargeable. Pour optimiser la sécurité de votre porte dérobée, n'oubliez pas de consulter les PDF exclusifs de SuccessPolaris !" }
+    { role: 'assistant', text: "Salutations, Architecte Nexus. Bienvenue dans l'interface Star Quiz Code Build par SuccessPolaris. J'ai configuré pour vous un système de personnalisation récursive. Vos futurs utilisateurs pourront eux-mêmes créer leur propre univers depuis votre site ! Pour optimiser la sécurité de votre plateforme, n'oubliez pas de consulter les fichiers PDF du site SuccessPolaris !" }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -37,12 +37,12 @@ const PolarisAssistant: React.FC = () => {
         model: 'gemini-3-flash-preview',
         contents: userMsg,
         config: {
-          systemInstruction: "Tu es polaris Brain, assistant de SuccessPolaris. Tu expliques la création de sites Star Quiz Code, la personnalisation récursive et l'export de sources. Ton ton est futuriste, poli et motivant. Suggère toujours les PDF SuccessPolaris.",
+          systemInstruction: "Tu es polaris Brain, assistant de SuccessPolaris. Tu expliques la création de sites Star Quiz Code, la personnalisation et l'export de sources. Ton ton est futuriste, poli et motivant. Suggère TOUJOURS de consulter les fichiers PDF du site SuccessPolaris pour aider les élèves.",
         },
       });
-      setMessages(prev => [...prev, { role: 'assistant', text: response.text || "Erreur de liaison Polaris." }]);
+      setMessages(prev => [...prev, { role: 'assistant', text: response.text || "Signal SuccessPolaris interrompu." }]);
     } catch (e) {
-      setMessages(prev => [...prev, { role: 'assistant', text: "Interruption du signal Nexus. Réessayez." }]);
+      setMessages(prev => [...prev, { role: 'assistant', text: "Erreur de connexion Nexus. Réessayez." }]);
     } finally {
       setIsLoading(false);
     }
@@ -57,7 +57,7 @@ const PolarisAssistant: React.FC = () => {
       ) : (
         <div className="bg-[#0f172a] border border-blue-500/30 rounded-3xl flex flex-col h-full shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
           <div className="bg-blue-900/60 p-4 flex justify-between items-center border-b border-blue-500/20">
-            <span className="font-black text-[10px] text-white uppercase tracking-widest flex items-center gap-2"><Cpu className="w-4 h-4 text-blue-400" /> Polaris Brain v4.2</span>
+            <span className="font-black text-[10px] text-white uppercase tracking-widest flex items-center gap-2"><Cpu className="w-4 h-4 text-blue-400" /> Polaris Brain v4.5</span>
             <button onClick={() => setIsOpen(false)}><X className="w-4 h-4 text-gray-500 hover:text-white" /></button>
           </div>
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
@@ -70,7 +70,7 @@ const PolarisAssistant: React.FC = () => {
             ))}
           </div>
           <div className="p-3 bg-gray-900/80 flex gap-2">
-            <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder="Requête Nexus..." className="flex-1 bg-gray-800/50 rounded-xl px-4 py-2 text-xs text-white outline-none border border-gray-700 focus:border-blue-500" />
+            <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder="Requête SuccessPolaris..." className="flex-1 bg-gray-800/50 rounded-xl px-4 py-2 text-xs text-white outline-none border border-gray-700 focus:border-blue-500" />
             <button onClick={handleSend} className="bg-blue-600 p-2 rounded-xl hover:bg-blue-500 transition-colors"><Send className="w-4 h-4 text-white" /></button>
           </div>
         </div>
@@ -115,15 +115,18 @@ const App: React.FC = () => {
     const cssFile = generatedFiles.find(f => f.name === 'static/css/style.css');
     const jsFile = generatedFiles.find(f => f.name === 'static/js/script.js');
     
+    // Correction cruciale : vérifier si htmlFile.content existe avant d'appeler replace
+    const rawHtml = htmlFile?.content || '<div style="color:white;text-align:center;padding:50px;">Chargement du module Polaris...</div>';
+    
     return `
       <!DOCTYPE html>
       <html>
       <head>
-        <style>${cssFile?.content}</style>
+        <style>${cssFile?.content || ''}</style>
         <meta charset="UTF-8">
       </head>
       <body>
-        ${htmlFile?.content.replace(/\{% extends .*? %\}/g, '').replace(/\{% block content %\}/g, '').replace(/\{% endblock %\}/g, '')}
+        ${rawHtml.replace(/\{% extends .*? %\}/g, '').replace(/\{% block content %\}/g, '').replace(/\{% endblock %\}/g, '')}
         <script>
           document.addEventListener('click', e => {
             const link = e.target.closest('a');
@@ -137,7 +140,7 @@ const App: React.FC = () => {
               if (href === '/backdoor') { e.preventDefault(); window.parent.postMessage({ type: 'navigate', page: 'backdoor' }, '*'); }
             }
           });
-          ${jsFile?.content}
+          ${jsFile?.content || ''}
         </script>
       </body>
       </html>
@@ -169,7 +172,7 @@ const App: React.FC = () => {
     const content = await zip.generateAsync({ type: 'blob' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(content);
-    link.download = `StarQuizCode_Source_${config.projectName.replace(/\s+/g, '_')}.zip`;
+    link.download = `StarQuizCode_SuccessPolaris_${config.projectName.replace(/\s+/g, '_')}.zip`;
     link.click();
   };
 
@@ -196,9 +199,9 @@ const App: React.FC = () => {
         <header className="h-20 border-b border-gray-800/40 flex items-center justify-between px-10 bg-[#030712]/90 backdrop-blur-3xl z-40">
            <div className="flex flex-col">
               <h1 className="text-sm font-black tracking-widest uppercase italic text-white flex items-center gap-3">
-                <ShieldCheck className="w-4 h-4 text-blue-500" /> Polaris Creator <span className="text-blue-500">v4.2 Ultra</span>
+                <ShieldCheck className="w-4 h-4 text-blue-500" /> SuccessPolaris Builder <span className="text-blue-500">v4.5</span>
               </h1>
-              <span className="text-[9px] text-gray-600 uppercase font-black tracking-[0.3em] mt-1">Générateur Star Quiz Code & Export de Sources</span>
+              <span className="text-[9px] text-gray-600 uppercase font-black tracking-[0.3em] mt-1">Générateur Star Quiz Code - Éducation & Code</span>
            </div>
            
            <div className="flex items-center gap-6">
@@ -229,39 +232,37 @@ const App: React.FC = () => {
           {activeTab === 'creation' && (
             <div className="h-full flex">
               <div className="w-72 border-r border-gray-800/40 p-8 space-y-6 bg-[#030712]/50">
-                <h3 className="text-[9px] font-black uppercase text-gray-600 tracking-[0.2em] mb-4">Modules de Construction</h3>
-                <button onClick={() => setActiveModule('content')} className={`w-full flex items-center gap-4 p-4 rounded-2xl text-xs border transition-all ${activeModule === 'content' ? 'bg-blue-600/10 border-blue-500/30 text-white' : 'text-gray-500 border-transparent hover:bg-gray-800/20'}`}><Layout className="w-4 h-4"/> Identité & Vision</button>
+                <h3 className="text-[9px] font-black uppercase text-gray-600 tracking-[0.2em] mb-4">Architecture SuccessPolaris</h3>
+                <button onClick={() => setActiveModule('content')} className={`w-full flex items-center gap-4 p-4 rounded-2xl text-xs border transition-all ${activeModule === 'content' ? 'bg-blue-600/10 border-blue-500/30 text-white' : 'text-gray-500 border-transparent hover:bg-gray-800/20'}`}><Layout className="w-4 h-4"/> Identité SuccessPolaris</button>
                 <button onClick={() => setActiveModule('design')} className={`w-full flex items-center gap-4 p-4 rounded-2xl text-xs border transition-all ${activeModule === 'design' ? 'bg-blue-600/10 border-blue-500/30 text-white' : 'text-gray-500 border-transparent hover:bg-gray-800/20'}`}><Palette className="w-4 h-4"/> Esthétique Nexus</button>
-                <button onClick={() => setActiveModule('sheets')} className={`w-full flex items-center gap-4 p-4 rounded-2xl text-xs border transition-all ${activeModule === 'sheets' ? 'bg-blue-600/10 border-blue-500/30 text-white' : 'text-gray-500 border-transparent hover:bg-gray-800/20'}`}><Table2 className="w-4 h-4"/> Mapping A1 - D1</button>
-                <button onClick={() => setActiveModule('logic')} className={`w-full flex items-center gap-4 p-4 rounded-2xl text-xs border transition-all ${activeModule === 'logic' ? 'bg-blue-600/10 border-blue-500/30 text-white' : 'text-gray-500 border-transparent hover:bg-gray-800/20'}`}><Lock className="w-4 h-4"/> Porte Dérobée Admin</button>
+                <button onClick={() => setActiveModule('sheets')} className={`w-full flex items-center gap-4 p-4 rounded-2xl text-xs border transition-all ${activeModule === 'sheets' ? 'bg-blue-600/10 border-blue-500/30 text-white' : 'text-gray-500 border-transparent hover:bg-gray-800/20'}`}><Table2 className="w-4 h-4"/> Mapping Cloud A1-D1</button>
+                <button onClick={() => setActiveModule('logic')} className={`w-full flex items-center gap-4 p-4 rounded-2xl text-xs border transition-all ${activeModule === 'logic' ? 'bg-blue-600/10 border-blue-500/30 text-white' : 'text-gray-500 border-transparent hover:bg-gray-800/20'}`}><Lock className="w-4 h-4"/> Accès Maître</button>
               </div>
 
               <div className="flex-1 overflow-y-auto p-12 custom-scrollbar bg-[radial-gradient(circle_at_50%_0%,_rgba(30,58,138,0.1),_transparent_70%)]">
                 <div className="max-w-2xl mx-auto space-y-8 pb-20">
                    {activeModule === 'content' && (
                      <div className="space-y-6 animate-in slide-in-from-bottom-6 duration-400">
-                        <div className="flex gap-4">
-                           <div className="flex-1"><InputField label="Nom de l'Instance Polaris" value={config.projectName} onChange={(v: string) => updateConfig({ projectName: v })} /></div>
-                        </div>
-                        <InputField label="Description du Hub (Vision)" value={config.userSiteDescription} onChange={(v: string) => updateConfig({ userSiteDescription: v })} isTextArea />
-                        <InputField label="Signature Finale de l'Architecte" value={config.html_signature} onChange={(v: string) => updateConfig({ html_signature: v })} />
+                        <InputField label="Nom de votre Instance SuccessPolaris" value={config.projectName} onChange={(v: string) => updateConfig({ projectName: v })} />
+                        <InputField label="Description Star Quiz Code" value={config.userSiteDescription} onChange={(v: string) => updateConfig({ userSiteDescription: v })} isTextArea />
+                        <InputField label="Signature Finale" value={config.html_signature} onChange={(v: string) => updateConfig({ html_signature: v })} />
                      </div>
                    )}
 
                    {activeModule === 'design' && (
                      <div className="space-y-6 animate-in slide-in-from-bottom-6 duration-400">
                         <div className="p-8 bg-blue-900/10 border border-blue-500/20 rounded-3xl text-center">
-                           <h3 className="text-blue-400 text-[10px] font-black uppercase tracking-widest mb-4">Moteur de Fond Polaris</h3>
+                           <h3 className="text-blue-400 text-[10px] font-black uppercase tracking-widest mb-4">Fond d'écran Nexus</h3>
                            <label className="flex items-center justify-center gap-4 bg-blue-600 hover:bg-blue-500 p-5 rounded-2xl cursor-pointer transition-all shadow-xl group max-w-sm mx-auto">
                               <ImageIcon className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                              <span className="text-[10px] font-black uppercase tracking-widest">Importer l'Image Idéale</span>
+                              <span className="text-[10px] font-black uppercase tracking-widest">Importer une Image</span>
                               <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
                            </label>
-                           {config.css_bg_image_base64 && <div className="mt-4 text-[9px] text-emerald-400 uppercase font-black flex items-center justify-center gap-2"><Zap className="w-3 h-3"/> Image injectée avec succès</div>}
+                           {config.css_bg_image_base64 && <div className="mt-4 text-[9px] text-emerald-400 uppercase font-black flex items-center justify-center gap-2"><Zap className="w-3 h-3"/> Image injectée</div>}
                         </div>
                         <div className="grid grid-cols-2 gap-6">
-                          <InputField label="Couleur d'Accentuation" type="color" value={config.css_accent_color} onChange={(v: string) => updateConfig({ css_accent_color: v })} />
-                          <InputField label="Rayon des Modules (px)" type="number" value={config.css_border_radius} onChange={(v: number) => updateConfig({ css_border_radius: v })} />
+                          <InputField label="Couleur Accent" type="color" value={config.css_accent_color} onChange={(v: string) => updateConfig({ css_accent_color: v })} />
+                          <InputField label="Arrondi (px)" type="number" value={config.css_border_radius} onChange={(v: number) => updateConfig({ css_border_radius: v })} />
                         </div>
                      </div>
                    )}
@@ -269,41 +270,33 @@ const App: React.FC = () => {
                    {activeModule === 'sheets' && (
                      <div className="space-y-6 animate-in slide-in-from-bottom-6 duration-400">
                         <div className="p-5 bg-emerald-900/10 border border-emerald-500/20 rounded-2xl mb-4">
-                          <p className="text-[10px] text-emerald-400 font-black uppercase tracking-widest flex items-center gap-2"><Table2 className="w-4 h-4"/> Mapping de Données Cloud</p>
-                          <p className="text-[9px] text-gray-500 mt-2 font-medium">Définissez les colonnes Google Sheets qui seront extraites pour vos articles Star Quiz Code.</p>
+                          <p className="text-[10px] text-emerald-400 font-black uppercase tracking-widest flex items-center gap-2"><Table2 className="w-4 h-4"/> Connectivité Google Sheets</p>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
-                          <InputField label="(A1) Titre Article" value={config.sheet_col_a1} onChange={(v: string) => updateConfig({ sheet_col_a1: v })} />
-                          <InputField label="(B1) URL Média / Image" value={config.sheet_col_b1} onChange={(v: string) => updateConfig({ sheet_col_b1: v })} />
-                          <InputField label="(C1) Valeur / Détails" value={config.sheet_col_c1} onChange={(v: string) => updateConfig({ sheet_col_c1: v })} />
-                          <InputField label="(D1) Chronologie (Date)" value={config.sheet_col_d1} onChange={(v: string) => updateConfig({ sheet_col_d1: v })} />
+                          <InputField label="(A1) Titre" value={config.sheet_col_a1} onChange={(v: string) => updateConfig({ sheet_col_a1: v })} />
+                          <InputField label="(B1) Image URL" value={config.sheet_col_b1} onChange={(v: string) => updateConfig({ sheet_col_b1: v })} />
+                          <InputField label="(C1) Valeur" value={config.sheet_col_c1} onChange={(v: string) => updateConfig({ sheet_col_c1: v })} />
+                          <InputField label="(D1) Date" value={config.sheet_col_d1} onChange={(v: string) => updateConfig({ sheet_col_d1: v })} />
                         </div>
                      </div>
                    )}
 
                    {activeModule === 'logic' && (
                      <div className="space-y-6 animate-in slide-in-from-bottom-6 duration-400">
-                        <div className="p-5 bg-blue-900/10 border border-blue-500/20 rounded-2xl mb-4 flex items-center gap-4">
-                          <HardDrive className="w-10 h-10 text-blue-400 shadow-[0_0_15px_rgba(96,165,250,0.3)]" />
-                          <div>
-                            <p className="text-[10px] text-blue-400 font-black uppercase tracking-widest">Infrastructure Admin & Cloud</p>
-                            <p className="text-[9px] text-gray-500 font-medium">Configurez les liens Google Drive et Sheets qui seront accessibles via le dashboard maître.</p>
-                          </div>
-                        </div>
                         <div className="grid grid-cols-2 gap-6">
                           <InputField label="Admin Username" value={config.admin_user} onChange={(v: string) => updateConfig({ admin_user: v })} />
-                          <InputField label="Admin Master Key" type="password" value={config.admin_pass} onChange={(v: string) => updateConfig({ admin_pass: v })} />
+                          <InputField label="Admin Key" type="password" value={config.admin_pass} onChange={(v: string) => updateConfig({ admin_pass: v })} />
                         </div>
-                        <InputField label="URL Cloud Google Drive" value={config.google_drive_url} onChange={(v: string) => updateConfig({ google_drive_url: v })} />
-                        <InputField label="URL Google Sheets Connecté" value={config.google_sheets_url} onChange={(v: string) => updateConfig({ google_sheets_url: v })} />
+                        <InputField label="URL Google Drive" value={config.google_drive_url} onChange={(v: string) => updateConfig({ google_drive_url: v })} />
+                        <InputField label="URL Google Sheets" value={config.google_sheets_url} onChange={(v: string) => updateConfig({ google_sheets_url: v })} />
                      </div>
                    )}
 
                    <div className="pt-10 border-t border-gray-800/40">
                       <button onClick={handleDownload} className="w-full bg-emerald-600 hover:bg-emerald-500 p-6 rounded-2xl text-white text-[11px] font-black uppercase tracking-widest flex items-center justify-center gap-4 shadow-[0_15px_35px_rgba(16,185,129,0.3)] transition-all hover:scale-[1.03] active:scale-95 group">
-                        <Download className="w-6 h-6 group-hover:animate-bounce" /> Exporter le Pack Star Quiz Code Complet
+                        <Download className="w-6 h-6 group-hover:animate-bounce" /> EXPORTER LES CODES SOURCES STAR QUIZ CODE
                       </button>
-                      <p className="text-center text-[9px] text-gray-600 mt-6 uppercase font-bold tracking-widest">Version Architecte Polaris Ready - Export de sources automatisé</p>
+                      <p className="text-center text-[9px] text-gray-600 mt-6 uppercase font-bold tracking-widest">Optimisé par SuccessPolaris - Consultez les fichiers PDF pour plus d'aide.</p>
                    </div>
                 </div>
               </div>
@@ -313,7 +306,7 @@ const App: React.FC = () => {
           {activeTab === 'preview' && (
             <div className="h-full bg-black p-4 md:p-12 flex flex-col items-center">
                <div className={`bg-[#020617] rounded-[2.5rem] overflow-hidden shadow-2xl transition-all border border-gray-800/60 ring-4 ring-gray-900/50 ${device === 'desktop' ? 'w-full h-full' : device === 'tablet' ? 'w-[768px] h-[95%]' : 'w-[380px] h-[90%]'}`}>
-                 <iframe srcDoc={previewDoc} className="w-full h-full border-none" title="Polaris Preview" />
+                 <iframe srcDoc={previewDoc} className="w-full h-full border-none bg-[#020617]" title="SuccessPolaris Preview" />
                </div>
             </div>
           )}
@@ -321,7 +314,7 @@ const App: React.FC = () => {
           {activeTab === 'code' && (
             <div className="h-full flex">
                <div className="w-72 border-r border-gray-800/40 p-8 space-y-3 bg-[#030712]/50 overflow-y-auto custom-scrollbar">
-                  <h3 className="text-[9px] font-black uppercase text-gray-600 tracking-widest mb-6">Arborescence Nexus</h3>
+                  <h3 className="text-[9px] font-black uppercase text-gray-600 tracking-widest mb-6">Fichiers SuccessPolaris</h3>
                   {generatedFiles.map(f => (
                     <div key={f.name} className={`p-3 border rounded-xl flex items-center gap-3 transition-colors hover:bg-white/5 cursor-pointer ${f.name.endsWith('.js') ? 'bg-yellow-500/5 border-yellow-500/20' : f.name.endsWith('.py') ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-blue-600/5 border-blue-500/20'}`}>
                         <FileCode2 className={`w-4 h-4 ${f.name.endsWith('.js') ? 'text-yellow-500' : f.name.endsWith('.py') ? 'text-emerald-500' : 'text-blue-500'}`} />

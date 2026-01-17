@@ -116,9 +116,8 @@ input:focus { border-color: var(--accent); background: rgba(255,255,255,0.08); }
 
   const scriptJs = `
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Nexus Engine v4.2 Initialisé.");
+    console.log("Nexus Engine v4.5 par SuccessPolaris Initialisé.");
 
-    // Initialisation Dynamique
     const config = {
         title: localStorage.getItem('nexus_custom_title') || "${config.projectName}",
         desc: localStorage.getItem('nexus_custom_desc') || "${config.userSiteDescription}",
@@ -126,12 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
         adminPass: localStorage.getItem('nexus_admin_pass') || "${config.admin_pass}"
     };
 
-    // Application du Titre Personnalisé
     const headerTitle = document.querySelector('header h1');
     if (headerTitle) headerTitle.innerText = config.title;
-    document.title = config.title + " - Nexus Powered";
+    document.title = config.title + " - SuccessPolaris";
 
-    // Validation Inscription (Success Alert)
     const regForm = document.getElementById('registrationForm');
     if (regForm) {
         regForm.addEventListener('submit', (e) => {
@@ -148,12 +145,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            alert("success"); // ALERTE CRUCIALE
+            alert("success");
             window.location.href = "/site";
         });
     }
 
-    // Porte Dérobée Admin
     const loginForm = document.getElementById('adminLoginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
@@ -162,15 +158,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const p = document.getElementById('pass').value;
 
             if (u === config.adminUser && p === config.adminPass) {
-                alert("Accès Architecte Accordé.");
+                alert("Accès Maître SuccessPolaris Accordé.");
                 window.location.href = "/admin-dashboard";
             } else {
-                alert("Identifiants incorrects dans l'infrastructure.");
+                alert("Identifiants incorrects.");
             }
         });
     }
 
-    // Module de Personnalisation (Créer son site)
     const personalizeForm = document.getElementById('personalizeForm');
     if (personalizeForm) {
         personalizeForm.addEventListener('submit', (e) => {
@@ -185,24 +180,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (au) localStorage.setItem('nexus_admin_user', au);
             if (ap) localStorage.setItem('nexus_admin_pass', ap);
 
-            alert("Site Personnalisé avec Succès ! Le moteur a été mis à jour.");
+            alert("Site SuccessPolaris Personnalisé ! Recharge en cours...");
             window.location.href = "/site";
         });
     }
 
-    // Téléchargement des Sources Personnalisées (Simulé pour le template)
     const dlBtn = document.getElementById('downloadCustomSources');
     if (dlBtn) {
         dlBtn.addEventListener('click', () => {
-            alert("Préparation du Pack de Sources Polaris pour " + config.title + "...\\n\\nGénération du ZIP en cours...");
-            // Dans un vrai environnement, ici on déclencherait la génération côté serveur ou client
-            setTimeout(() => {
-                alert("Téléchargement lancé !\\nPack : Nexus_Full_Source_" + config.title.replace(/\\s/g, '_') + ".zip");
-            }, 1500);
+            alert("Pour télécharger les sources Star Quiz Code finales, utilisez le bouton EXPORTER du panneau de contrôle SuccessPolaris.");
         });
     }
 
-    // Likes
     document.querySelectorAll('.like-btn').forEach(btn => {
         let l = Math.floor(Math.random() * 20);
         btn.innerText = "🤍 Like ("+l+")";
@@ -233,16 +222,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const registerHtml = `
 <!DOCTYPE html>
 <html lang="${config.html_lang}">
-<head><meta charset="UTF-8"><title>Authentification Polaris</title><link rel="stylesheet" href="style.css"></head>
+<head><meta charset="UTF-8"><title>Portail SuccessPolaris</title><link rel="stylesheet" href="style.css"></head>
 <body>
     <main><div class="card" style="max-width: 500px; margin: 0 auto;">
-        <h2 style="text-align:center; margin-bottom: 3rem;">PORTAIL D'ACCÈS</h2>
+        <h2 style="text-align:center; margin-bottom: 3rem;">AUTHENTIFICATION MAÎTRE</h2>
         <form id="registrationForm">
             <label>NOM COMPLET</label><input type="text" id="nom" required>
             <label>IDENTITÉ / SEXE</label><select id="sexe" required><option value="">Sélectionner...</option><option value="M">Masculin</option><option value="F">Féminin</option></select>
-            <label>EMAIL GMAIL EXCLUSIF</label><input type="email" id="email" placeholder="votre_nom@gmail.com" required>
-            <label>PAYS D'ORIGINE</label><input type="text" id="pays" required>
-            <button type="submit" class="btn" style="width:100%; margin-top: 1rem;">ACTIVER L'INTERFACE</button>
+            <label>EMAIL GMAIL VALIDE</label><input type="email" id="email" placeholder="nom@gmail.com" required>
+            <label>PAYS</label><input type="text" id="pays" required>
+            <button type="submit" class="btn" style="width:100%; margin-top: 1rem;">INITIER L'ACCÈS</button>
         </form>
     </div></main>
     <script src="script.js"></script>
@@ -253,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const userSiteHtml = `
 <!DOCTYPE html>
 <html lang="${config.html_lang}">
-<head><meta charset="UTF-8"><title>${config.projectName} - Archives</title><link rel="stylesheet" href="style.css"></head>
+<head><meta charset="UTF-8"><title>${config.projectName}</title><link rel="stylesheet" href="style.css"></head>
 <body>
     <nav class="site-nav">
         <a href="/site" class="active">Archives</a>
@@ -262,11 +251,11 @@ document.addEventListener('DOMContentLoaded', () => {
     <header><h1>${config.projectName}</h1></header>
     <main>
         <div class="card">
-            <h2 style="margin-bottom: 3rem; text-transform: uppercase; letter-spacing: 2px;">Archives Google Sheets (A1-D1)</h2>
+            <h2 style="margin-bottom: 3rem; text-transform: uppercase; letter-spacing: 2px;">Archives Cloud (A1-D1)</h2>
             <div class="article-list">
                 <article class="article-item">
                     <h3 class="article-title">${config.sheet_col_a1}</h3>
-                    <img src="${config.sheet_col_b1}" alt="Archive Media" class="article-media">
+                    <img src="${config.sheet_col_b1}" alt="Media" class="article-media">
                     <div class="article-meta">
                         <span style="font-weight:900; color:var(--accent);">VALEUR: ${config.sheet_col_c1}</span>
                         <span>DATE: ${config.sheet_col_d1}</span>
@@ -277,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="signature">${config.html_signature}</div>
         </div>
     </main>
-    <a href="/backdoor" class="backdoor-link">Porte Dérobée</a>
+    <a href="/backdoor" class="backdoor-link">Accès Admin</a>
     <script src="script.js"></script>
 </body>
 </html>
@@ -286,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const personalizeHtml = `
 <!DOCTYPE html>
 <html lang="${config.html_lang}">
-<head><meta charset="UTF-8"><title>Générateur de Site Polaris</title><link rel="stylesheet" href="style.css"></head>
+<head><meta charset="UTF-8"><title>Générateur SuccessPolaris</title><link rel="stylesheet" href="style.css"></head>
 <body>
     <nav class="site-nav">
         <a href="/site">Archives</a>
@@ -294,33 +283,33 @@ document.addEventListener('DOMContentLoaded', () => {
     </nav>
     <main>
         <div class="card">
-            <h2 style="margin-bottom: 1rem;">MODULE DE CRÉATION PERSONNALISÉ</h2>
-            <p style="opacity:0.6; margin-bottom: 3rem;">Configurez votre site idéal et téléchargez les sources Star Quiz Code.</p>
+            <h2 style="margin-bottom: 1rem;">CONFIGURATION PERSONNALISÉE</h2>
+            <p style="opacity:0.6; margin-bottom: 3rem;">Adaptez votre instance Star Quiz Code à votre vision.</p>
             
             <form id="personalizeForm">
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
                     <div>
-                        <label>Titre de votre projet</label>
-                        <input type="text" id="p_title" placeholder="Ex: Success Lab">
+                        <label>Titre de votre site</label>
+                        <input type="text" id="p_title" placeholder="Mon Hub SuccessPolaris">
                         
-                        <label>Identifiants Admin Personnalisés</label>
-                        <input type="text" id="p_admin" placeholder="Nouvel utilisateur">
-                        <input type="password" id="p_pass" placeholder="Nouveau mot de passe">
+                        <label>Accès Administrateur</label>
+                        <input type="text" id="p_admin" placeholder="Utilisateur">
+                        <input type="password" id="p_pass" placeholder="Clé Secrète">
                     </div>
                     <div>
-                        <label>Description du site</label>
-                        <textarea id="p_desc" style="height: 195px;" placeholder="Expliquez votre vision ici..."></textarea>
+                        <label>Vision du projet</label>
+                        <textarea id="p_desc" style="height: 195px;" placeholder="Écrivez votre description ici..."></textarea>
                     </div>
                 </div>
                 
                 <div style="display: flex; gap: 1.5rem; margin-top: 2rem;">
-                    <button type="submit" class="btn" style="flex: 2;">Enregistrer la configuration</button>
-                    <button type="button" id="downloadCustomSources" class="btn btn-secondary" style="flex: 1;">Télécharger les sources</button>
+                    <button type="submit" class="btn" style="flex: 2;">Sauvegarder les Paramètres</button>
+                    <button type="button" id="downloadCustomSources" class="btn btn-secondary" style="flex: 1;">Aide Téléchargement</button>
                 </div>
             </form>
             
             <p style="margin-top: 3rem; font-size: 0.8rem; text-align: center; opacity: 0.4;">
-                Consultez les guides PDF SuccessPolaris pour maximiser votre potentiel de création.
+                Consultez les fichiers PDF du site SuccessPolaris pour optimiser vos codes.
             </p>
         </div>
     </main>
@@ -332,15 +321,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const backdoorHtml = `
 <!DOCTYPE html>
 <html lang="${config.html_lang}">
-<head><meta charset="UTF-8"><title>Sécurité Polaris</title><link rel="stylesheet" href="style.css"></head>
+<head><meta charset="UTF-8"><title>Sécurité SuccessPolaris</title><link rel="stylesheet" href="style.css"></head>
 <body>
     <main style="display: flex; align-items: center; justify-content: center; min-height: 80vh;">
         <div class="card" style="width: 100%; max-width: 450px;">
-            <h2 style="text-align:center; margin-bottom: 3rem; color: var(--accent);">LOGICIEL DE VERROUILLAGE</h2>
+            <h2 style="text-align:center; margin-bottom: 3rem; color: var(--accent);">VÉRIFICATION DES ACCÈS</h2>
             <form id="adminLoginForm">
-                <label>UTILISATEUR MAÎTRE</label><input type="text" id="user" required>
-                <label>CLEF D'ACCÈS</label><input type="password" id="pass" required>
-                <button type="submit" class="btn" style="width:100%; margin-top: 1rem;">INITIER LA SESSION</button>
+                <label>UTILISATEUR</label><input type="text" id="user" required>
+                <label>CLÉ DE DÉCRYPTAGE</label><input type="password" id="pass" required>
+                <button type="submit" class="btn" style="width:100%; margin-top: 1rem;">DÉVERROUILLER</button>
             </form>
         </div>
     </main>
@@ -352,21 +341,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const adminDashboardHtml = `
 <!DOCTYPE html>
 <html lang="${config.html_lang}">
-<head><meta charset="UTF-8"><title>Nexus Admin Hub</title><link rel="stylesheet" href="style.css"></head>
+<head><meta charset="UTF-8"><title>Dashboard Admin</title><link rel="stylesheet" href="style.css"></head>
 <body>
-    <header><h1>Dashboard Administrateur Polaris</h1></header>
+    <header><h1>Dashboard Administrateur SuccessPolaris</h1></header>
     <main>
         <div class="card">
-            <div class="admin-badge">Session Master Active</div>
-            <h2 style="margin-bottom: 2.5rem;">Connectivité Cloud & Sources</h2>
+            <div class="admin-badge">Mode Architecte</div>
+            <h2 style="margin-bottom: 2.5rem;">Gestion Cloud & Infrastructure</h2>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
                 <div style="background: rgba(255,255,255,0.03); padding: 2rem; border-radius: 15px;">
-                    <h3 style="color:var(--accent); margin-bottom: 1.5rem;">Ressources Cloud</h3>
-                    <label>Lien Google Drive Site</label>
+                    <h3 style="color:var(--accent); margin-bottom: 1.5rem;">Sources Externes</h3>
+                    <label>Google Drive</label>
                     <input type="text" readonly value="${config.google_drive_url}">
                     
-                    <label>Lien Google Sheets Archives</label>
+                    <label>Google Sheets</label>
                     <input type="text" readonly value="${config.google_sheets_url}">
                     
                     <div style="display: flex; gap: 1rem;">
@@ -376,20 +365,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 
                 <div style="background: rgba(255,255,255,0.03); padding: 2rem; border-radius: 15px;">
-                    <h3 style="color:var(--accent); margin-bottom: 1.5rem;">Statistiques Sources</h3>
-                    <p style="font-size: 0.85rem; opacity: 0.7;">Nombre d'articles injectés : 1 (Simulation mapping A1-D1)</p>
-                    <p style="font-size: 0.85rem; opacity: 0.7;">Statut du serveur Python : Opérationnel</p>
-                    <p style="font-size: 0.85rem; opacity: 0.7;">Dernière modification : Aujourd'hui</p>
+                    <h3 style="color:var(--accent); margin-bottom: 1.5rem;">Statut Système</h3>
+                    <p style="font-size: 0.85rem; opacity: 0.7;">Intégration A1-D1 : Active</p>
+                    <p style="font-size: 0.85rem; opacity: 0.7;">Backend Python : Prêt</p>
                     
                     <div style="margin-top: 2rem; padding: 1rem; border: 1px dashed rgba(255,255,255,0.1); border-radius: 10px;">
-                        <p style="font-size: 0.7rem; font-weight: 800; color: #fbbf24;">NOTE ARCHITECTE :</p>
-                        <p style="font-size: 0.7rem; opacity: 0.6;">Vérifiez toujours la validation Gmail avant de publier les sources.</p>
+                        <p style="font-size: 0.7rem; font-weight: 800; color: #fbbf24;">NOTE :</p>
+                        <p style="font-size: 0.7rem; opacity: 0.6;">Consultez les fichiers PDF de SuccessPolaris pour les mises à jour.</p>
                     </div>
                 </div>
             </div>
             
             <p style="text-align: center; margin-top: 4rem;">
-                <a href="/site" style="color: var(--accent); text-decoration: none; font-weight: bold; font-size: 0.8rem;">← SORTIR DU DASHBOARD</a>
+                <a href="/site" style="color: var(--accent); text-decoration: none; font-weight: bold; font-size: 0.8rem;">← QUITTER LE DASHBOARD</a>
             </p>
         </div>
     </main>
@@ -421,7 +409,6 @@ def backdoor(): return render_template('backdoor.html')
 def admin_dashboard(): return render_template('admin_dashboard.html')
 
 if __name__ == '__main__':
-    # Configuration Nexus Polaris Enterprise
     app.run(debug=${config.py_debug_mode}, port=${config.py_port})
   `.trim();
 
